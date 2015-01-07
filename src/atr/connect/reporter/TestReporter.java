@@ -40,6 +40,7 @@ public class TestReporter {
 	 */
 	public TestReporter(String serverPostTestURL, String projectTable) {
 		this.url = serverPostTestURL;
+		this.projectTable = projectTable;
 	}
 
 	/**
