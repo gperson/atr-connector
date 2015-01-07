@@ -85,8 +85,8 @@ public class TestResult implements Serializable {
 			PrintWriter pw = new PrintWriter(sw);
 			error.printStackTrace(pw);
 			String str = sw.toString();
-			if (str.length() > 500) {
-				this.error = str.substring(0, 499);
+			if (str.length() > 700) {
+				this.error = str.substring(0, 699);
 			} else {
 				this.error = str;
 			}
