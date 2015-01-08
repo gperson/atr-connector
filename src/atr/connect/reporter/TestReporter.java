@@ -30,6 +30,7 @@ public class TestReporter {
 	 */
 	public TestReporter(String serverPostTestURL) {
 		this.url = serverPostTestURL;
+		this.status = true;
 	}
 
 	/**
@@ -43,6 +44,7 @@ public class TestReporter {
 	public TestReporter(String serverPostTestURL, String projectTable) {
 		this.url = serverPostTestURL;
 		this.projectTable = projectTable;
+		this.status = true;
 	}
 
 	/**
@@ -124,6 +126,7 @@ public class TestReporter {
 	public void setTestInfo(String runInfo) {
 		if (this.testResult == null) {
 			this.testResult = new TestResult();
+			this.status = true;
 		}
 		this.testResult.setRunInfo(runInfo);
 	}
@@ -143,6 +146,7 @@ public class TestReporter {
 	public void setTestInfo(String name, String runInfo, String params, String extra) {
 		if (this.testResult == null) {
 			this.testResult = new TestResult(name, runInfo, params, extra);
+			this.status = true;
 		} else {
 			this.testResult.setName(name);
 			this.testResult.setRunInfo(runInfo);
@@ -165,6 +169,7 @@ public class TestReporter {
 	public void setTestInfo(String name, String params, String extra) {
 		if (this.testResult == null) {
 			this.testResult = new TestResult(name, params, extra);
+			this.status = true;
 		} else {
 			this.testResult.setName(name);
 			this.testResult.setParam(params);
@@ -184,6 +189,7 @@ public class TestReporter {
 	public void setTestInfo(String name, String params) {
 		if (this.testResult == null) {
 			this.testResult = new TestResult(name, params);
+			this.status = true;
 		} else {
 			this.testResult.setName(name);
 			this.testResult.setParam(params);
@@ -200,6 +206,7 @@ public class TestReporter {
 	public void setParams(String params) {
 		if (this.testResult == null) {
 			this.testResult = new TestResult();
+			this.status = true;
 		}
 		this.testResult.setParam(params);
 	}
@@ -213,6 +220,7 @@ public class TestReporter {
 	public void setRunInfo(String runInfo) {
 		if (this.testResult == null) {
 			this.testResult = new TestResult();
+			this.status = true;
 		}
 		this.testResult.setRunInfo(runInfo);
 	}
@@ -226,6 +234,7 @@ public class TestReporter {
 	public void setName(String name) {
 		if (this.testResult == null) {
 			this.testResult = new TestResult();
+			this.status = true;
 		}
 		this.testResult.setName(name);
 	}
@@ -239,6 +248,7 @@ public class TestReporter {
 	public void setExtra(String extra) {
 		if (this.testResult == null) {
 			this.testResult = new TestResult();
+			this.status = true;
 		}
 		this.testResult.setExtra(extra);
 	}
@@ -249,6 +259,7 @@ public class TestReporter {
 	public void setStartTime() {
 		if (this.testResult == null) {
 			this.testResult = new TestResult();
+			this.status = true;
 		}
 		this.testResult.setStart(new Date());
 	}
@@ -259,6 +270,7 @@ public class TestReporter {
 	public void passTest() {
 		if(this.testResult == null){
 			this.testResult = new TestResult();
+			this.status = true;
 		}
 		this.testResult.setError(null);
 		this.testResult.setStatus(TestStatus.SUCCESS);
