@@ -26,35 +26,35 @@ public class TestResult implements Serializable {
 	}
 
 	public TestResult(String name, String params, String extra) {
-		this.name = name;
-		this.param = params;
+		this.setName(name);
+		this.setParam(params);
 		this.start = new Date();
-		this.extra = extra;
+		this.setExtra(extra);
 	}
 	
 	public TestResult(String name, String params) {
-		this.name = name;
-		this.param = params;
+		this.setName(name);
+		this.setParam(params);
 		this.start = new Date();
 	}
 	
 	public TestResult(String name, String runInfo, String params, String extra) {
-		this.name = name;
-		this.param = params;
+		this.setName(name);
+		this.setParam(params);
 		this.start = new Date();
-		this.extra = extra;
-		this.runInfo = runInfo;
+		this.setExtra(extra);
+		this.setRunInfo(runInfo);
 	}
 
 	public TestResult(TestStatus status, String name, Throwable error, String runInfo, String params, Date start, Date end, String extra) {
-		this.name = name;
-		this.param = params;
+		this.setName(name);
+		this.setParam(params);
 		this.status = status;
 		this.setError(error);
 		this.start = start;
 		this.end = end;
-		this.extra = extra;
-		this.runInfo = runInfo;
+		this.setExtra(extra);
+		this.setRunInfo(runInfo);
 	}
 
 	public String getName() {
@@ -62,7 +62,7 @@ public class TestResult implements Serializable {
 	}
 
 	public void setName(String name) {
-		this.name = name;
+		this.name = JSONObject.escape(name);
 	}
 
 	public String getParam() {
@@ -70,13 +70,18 @@ public class TestResult implements Serializable {
 	}
 
 	public void setParam(String param) {
-		this.param = param;
+		this.param = JSONObject.escape(param);
 	}
 
 	public String getError() {
 		return this.error;
 	}
 
+	/**
+	 * Sets the error by converting the throwable object to a string,
+	 * limits its length to 700 chars,
+	 * @param error Error thrown by the test
+	 */
 	public void setError(Throwable error) {
 		if (error == null) {
 			this.error = "";
@@ -85,6 +90,7 @@ public class TestResult implements Serializable {
 			PrintWriter pw = new PrintWriter(sw);
 			error.printStackTrace(pw);
 			String str = sw.toString();
+			JSONObject.escape(str);
 			if (str.length() > 700) {
 				this.error = str.substring(0, 699);
 			} else {
@@ -109,6 +115,10 @@ public class TestResult implements Serializable {
 		this.end = end;
 	}
 
+	/**
+	 * Converts the enum to the class used by the UI
+	 * @return Status string which is used to set the color of the row on the UI
+	 */
 	public String getStatus() {
 		if (this.status == TestStatus.ERROR) {
 			return "warning";
@@ -130,7 +140,7 @@ public class TestResult implements Serializable {
 	}
 
 	public void setExtra(String extra) {
-		this.extra = extra;
+		this.extra = JSONObject.escape(extra);
 	}
 
 	public String getRunInfo() {
@@ -138,9 +148,13 @@ public class TestResult implements Serializable {
 	}
 
 	public void setRunInfo(String runInfo) {
-		this.runInfo = runInfo;
+		this.runInfo = JSONObject.escape(runInfo);
 	}
 
+	/**
+	 * Returns a JSON object representation for the TestResult instance
+	 * @return JSONObject of the TestResult object
+	 */
 	@SuppressWarnings("unchecked")
 	public JSONObject getTestResultJSON() {
 		if (this.name == null) {

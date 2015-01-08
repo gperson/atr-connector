@@ -6,6 +6,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Date;
+import java.util.logging.Logger;
 
 import org.json.simple.JSONObject;
 
@@ -19,6 +20,7 @@ public class TestReporter {
 	private TestResult testResult;
 	public boolean status = true;
 	private String projectTable = "tests_Default";
+	private final static Logger LOGGER = Logger.getLogger(TestReporter.class.getName());
 
 	/**
 	 * Creates a TestReporter instance, posting tests to given URL
@@ -70,11 +72,17 @@ public class TestReporter {
 	 * @return Status of the posted test
 	 */
 	@SuppressWarnings("unchecked")
-	public PostTestStatus setResults(TestResult testResult) {
+	public void setResults(TestResult testResult) {
 		try {
 			this.testResult.setEnd(new Date());
 			
-			URL obj = new URL(this.url);
+			URL obj;
+			if(this.url.endsWith("/")){
+				obj = new URL(this.url + "addTest");
+			}
+			else{
+				obj = new URL(this.url + "/addTest");
+			}
 			HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 
 			con.setRequestMethod("POST");
@@ -95,15 +103,15 @@ public class TestReporter {
 			int responseCode = con.getResponseCode();
 
 			if (responseCode == 200) {
-				return PostTestStatus.SUCCESS;
+				LOGGER.info(PostTestStatus.SUCCESSFUL_POST.toString());
 			} else {
-				return PostTestStatus.FAILED_TO_POST;
+				LOGGER.severe(PostTestStatus.FAILED_TO_POST.toString());
 			}
 
 		} catch (MalformedURLException e) {
-			return PostTestStatus.INVALID_SERVER_URL;
+			LOGGER.severe(PostTestStatus.INVALID_SERVER_URL.toString());
 		} catch (IOException e) {
-			return PostTestStatus.IO_ERROR_WITH_SERVER;
+			LOGGER.severe(PostTestStatus.IO_ERROR_WITH_SERVER.toString());
 		}
 	}
 
