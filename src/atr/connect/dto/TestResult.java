@@ -79,7 +79,7 @@ public class TestResult implements Serializable {
 
 	/**
 	 * Sets the error by converting the throwable object to a string,
-	 * limits its length to 700 chars,
+	 * limits its length to 1000 chars,
 	 * @param error Error thrown by the test
 	 */
 	public void setError(Throwable error) {
@@ -91,8 +91,8 @@ public class TestResult implements Serializable {
 			error.printStackTrace(pw);
 			String str = sw.toString();
 			JSONObject.escape(str);
-			if (str.length() > 700) {
-				this.error = str.substring(0, 699);
+			if (str.length() > 1000) {
+				this.error = str.substring(0, 999);
 			} else {
 				this.error = str;
 			}
